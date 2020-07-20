@@ -19,4 +19,4 @@ class MyClient(discord.Client):
             print("got a NON-pokemeow message!")
 
 bot = MyClient()
-bot.run('NzM0NjU2NDc4NTIyMTE0MTE5.XxYYTg.NQA4LIZVOtn3pkYSYLBKMFzbMsw')
+bot.run('TOKEN')
