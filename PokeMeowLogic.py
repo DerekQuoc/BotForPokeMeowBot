@@ -35,10 +35,11 @@ class PokeMeowBotLogic():
             return "pb"
         if "Uncommon" in message:
             return "pb"
-        if "Rarity: Rare" in message:
-            return "gb"
-        if "Rarity: Super Rare" in message:
-            return "ub"
+        if "Rare" in message:
+            if "Super" in message:
+                return "ub"
+            else:
+                return "gb"
         if "Legendary" in message:
             return "mb"
         else:
