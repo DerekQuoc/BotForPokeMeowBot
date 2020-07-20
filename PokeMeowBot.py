@@ -2,20 +2,21 @@ import discord
 from DiscordMessenger import Messenger
 from PokeMeowLogic import getResponse
 
-class PokeMeowBot(discord.Client):
+class MyClient(discord.Client):
     pokeMeow = 'PokéMeow#6691'
     messageSender = 0
 
-    def __init__(self):
-        self.messageSender = Messenger()
-
     async def on_ready(self):
         print("logged on as {0}!".format(self.user))
+        self.messageSender = Messenger()
     
     async def on_message(self, message):
-        if message.author == self.pokeMeow:
+        if str(message.author) == str(self.pokeMeow):
+            print("got a pokemeow message!")
             response = getResponse(message.content)
             self.messageSender.send(response)
+        else:
+            print("got a NON-pokemeow message!")
 
-bot = PokeMeowBot()
-bot.run('the bots secret token goes here!')
+bot = MyClient()
+bot.run('TOKEN')

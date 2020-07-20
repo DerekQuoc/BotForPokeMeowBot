@@ -15,7 +15,9 @@ class Messenger:
         self.driver = webdriver.Chrome(ChromeDriverManager().install())
         # hardcoded to 'pokemon1' in the lam server
         # maybe make this more flexible?
-        self.driver.get("https://discord.com/channels/179380913891704832/732764955677556776")
+        testServer =  "https://discord.com/channels/734655457037254718/734655532618481674"
+        #lamPokemon1 = "https://discord.com/channels/179380913891704832/732764955677556776"
+        self.driver.get(testServer)
 
         time.sleep(5)
 
@@ -46,4 +48,4 @@ class Messenger:
     def send(self, message):
         time.sleep(1)
         self.textElement.send_keys(message)
-        #text.send_keys(Keys.RETURN)
+        self.textElement.send_keys(Keys.RETURN)

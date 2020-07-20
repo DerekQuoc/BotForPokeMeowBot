@@ -12,4 +12,4 @@ class MyClient(discord.Client):
 
 client = MyClient()
 # when we get a server set up with our bot connected, the following line will attach it:
-#client.run('my token goes here')
+#client.run('TOKEN')
