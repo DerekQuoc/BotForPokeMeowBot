@@ -8,23 +8,28 @@
 #4.Check amount of balls and restock if necessary
     #a reading amount of balls
     #b using buy command knowing how much each ball costs
-class PokeMeowBotLogic:
-    def buyBall():
-        if RebuyPokeball = True:
+class PokeMeowBotLogic():
+    RebuyPokeball = False
+    RebuyGreatball = False
+    RebuyUltraballs = False
+    RebuyMasterballs = False
+
+    def buyBall(self):
+        if self.RebuyPokeball == True:
             return ";shop buy pokeball VarNum"
-        if RebuyGreatball = True:
+        if self.RebuyGreatball == True:
             return ";shop buy greatball VarNum"
 
 
-    def getResponse(message):
-        if "Pokeballs: 1 ": in message
-            RebuyPokeballs = True
-        if "Greatballs: 1 " in message
-            RebuyGreatballs = True
-        if "Ultraballs: 1 " in message
-            RebuyUltraballs = True
-        if "Masterballs: 1 " in message
-            RebuyMasterballs = True
+    def getResponse(self, message):
+        if "Pokeballs: 1 " in message:
+            self.RebuyPokeballs = True
+        if "Greatballs: 1 " in message:
+            self.RebuyGreatballs = True
+        if "Ultraballs: 1 " in message:
+            self.RebuyUltraballs = True
+        if "Masterballs: 1 " in message:
+            self.RebuyMasterballs = True
 
         if "Common" in message:
             return "pb"
@@ -36,8 +41,5 @@ class PokeMeowBotLogic:
             return "ub"
         if "Legendary" in message:
             return "mb"
-        else
-            return "ub"
-    # message is a string with the last message from pokemeow
-    # return a string that you wish to send in response
-    return "wow!"
+        else:
+            return "wow!"
