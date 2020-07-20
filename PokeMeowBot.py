@@ -1,15 +1,21 @@
-#1.Request a pokemon encounter
-    #a send ;p message every 7-20seconds (rand)
-#2. Find/verify response message
-#3.Check if there is bot check message and respond if not
-    #3.Respond with appropriate ball
-#4.Check amount of balls and restock if necessary
-    #a reading amount of balls
-    #b using buy command knowing how much each ball costs
+import discord
+from DiscordMessenger import Messenger
+from PokeMeowResponse import getResponse
 
+class PokeMeowBot(discord.Client):
+    pokeMeow = 'PokéMeow#6691'
+    messageSender = 0
 
+    def __init__(self):
+        self.messageSender = Messenger()
 
-#1 Read message
-#2 Figure out response
-#3 Send response
+    async def on_ready(self):
+        print("logged on as {0}!".format(self.user))
+    
+    async def on_message(self, message):
+        if message.author == self.pokeMeow:
+            response = getResponse(message.content)
+            self.messageSender.send(response)
 
+bot = PokeMeowBot()
+bot.run('the bots secret token goes here!')
