@@ -1,6 +1,6 @@
 import discord
 from DiscordMessenger import Messenger
-from PokeMeowResponse import getResponse
+from PokeMeowLogic import getResponse
 
 class PokeMeowBot(discord.Client):
     pokeMeow = 'PokéMeow#6691'
