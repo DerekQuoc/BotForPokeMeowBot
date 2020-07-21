@@ -14,8 +14,16 @@ class MyClient(discord.Client):
     
     async def on_message(self, message):
         if str(message.author) == str(self.pokeMeow):
-            embedded = [str(embed.to_dict()) for embed in message.embeds][0]
-            response = self.logicBot.getResponse(embedded)
+
+            embedded = [str(embed.to_dict()) for embed in message.embeds]
+
+            # embedded message
+            if len(embedded) != 0:
+                response = self.logicBot.getResponse(embedded[0])
+            # regular text
+            else:
+                response = self.logicBot.getResponse(str(message.content))
+
             self.messageSender.send(response)
 
 bot = MyClient()
