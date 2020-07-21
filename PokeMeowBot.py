@@ -14,11 +14,9 @@ class MyClient(discord.Client):
     
     async def on_message(self, message):
         if str(message.author) == str(self.pokeMeow):
-            print("got a pokemeow message!")
-            response = self.logicBot.getResponse(message.content)
+            embedded = [str(embed.to_dict()) for embed in message.embeds][0]
+            response = self.logicBot.getResponse(embedded)
             self.messageSender.send(response)
-        else:
-            print("got a NON-pokemeow message!")
 
 bot = MyClient()
-bot.run('TOKEN')
+bot.run('NzM0NjU2NDc4NTIyMTE0MTE5.XxYmBg.lTo12m050YZdVJMc4oMnwqz5Rjo')
