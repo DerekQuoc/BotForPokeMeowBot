@@ -43,4 +43,4 @@ class PokeMeowBotLogic():
         if "Legendary" in message:
             return "mb"
         else:
-            return "wow!"
+            return "ub"
