@@ -19,4 +19,4 @@ class MyClient(discord.Client):
             self.messageSender.send(response)
 
 bot = MyClient()
-bot.run('NzM0NjU2NDc4NTIyMTE0MTE5.XxYmBg.lTo12m050YZdVJMc4oMnwqz5Rjo')
+bot.run('TOKEN')
