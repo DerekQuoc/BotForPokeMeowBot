@@ -16,8 +16,7 @@ class PokeMeowBotLogic():
     Masterballs = 0
 
     NumEggs = 0
-    HatchableEgg = False
-    NeedNewEgg = False
+    AddEgg = False
     
 
     Coins = 0
@@ -29,33 +28,46 @@ class PokeMeowBotLogic():
         
 
     def NeedBall(self):
-
         return (PokeBalls == 0 or Greatballs == 0 or Ultraballs == 0 or Masterballs == 0)
 
     def BuyBall(self):
 
         if self.Pokeballs == 0:
             if self.Coins > 10000:
+                self.Coins -= 10000
                 return ";shop buy 1 50"
             else:
+                self.Coins -= 200
                 return ";shop buy 1 1"
 
         if self.Greatballs == 0:
-            if self.Coins > 15000:        
+            if self.Coins > 15000:
+                self.Coins -= 15000        
                 return ";shop buy 2 30"
             else:
+                self.Coins -= 500
                 return ";shop buy 2 1"
 
         if self.Ultraballs == 0:
             if self.Coins > 7500:
+                self.Coins -= 7500
                 return ";shop buy 3 5"
             else:
+                self.Coins -= 1500
                 return ";shop buy 3 1"
 
-        if  self.Masterballs == 0 and self.Coins > 300000:
+        if  self.Masterballs == 0 and self.Coins > 200000:
+            self.Coins -= 100000
             return ";shop buy 4 1"
         else:
             return ";p"
+
+    def HatchableEgg():
+        if self.NumEggs > 0:
+            self.AddEgg = True
+        self.NumEggs -= 1
+        return ";egg hatch"
+
         
     def GottaCatchEmAll(self, message):
         if "Common" in message:
@@ -87,14 +99,23 @@ class PokeMeowBotLogic():
             self.ConstructInv(message)
 
         if "you bought" in message:
+            #wait timer
             self.UpdateInv(message)
             return ";p"
 
         if self.NeedBall():
-            BuyBall()
+            return BuyBall()
 
-        if "A wild Pokemon":
+        if "A wild Pokemon" in message:
             return self.GottaCatchEmAll(message)
+        
+        if "Your egg is ready to hatch" in message
+            return self.HatchableEgg()
+
+        if  self.AddEgg == True:
+            self.AddEgg == False
+            return ";egg hold"
+        
         else
             return ";p"
 
