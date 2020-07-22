@@ -60,7 +60,7 @@ class MyClient(discord.Client):
                 self.messageSender.send(";p")
                 self.timeOfLastSend = time.time()
             if time.time() - self.timeOfLastSend > 20:
-                print("Nothing for 10 seconds, sending ;p")
+                print("Nothing for 20 seconds, sending ;p")
                 self.messageSender.send(";p")
                 self.timeOfLastSend = time.time()
 
