@@ -168,8 +168,9 @@ class PokeMeowBotLogic():
             return ";egg hold"
 
         else:
-            UnknownMessage = True:
-            return " "
+            return ";p"
+
+
 
         #quest
         #hunt

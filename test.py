@@ -1,3 +1,4 @@
+import time
 MESSAGE = 0
 InitialMessage = ""
 message = "Hey there 12,34 I love you"
@@ -11,3 +12,16 @@ for word in MessageStr:
 MESSAGE = int(InitialMessage)
 print(MESSAGE)
         
+wakeup = time.time()
+print(wakeup)
+while True:
+    wakeup += 11
+    for i in range(11):
+        time.sleep(1)
+        print(i)
+        if time.time() > wakeup:
+            print(";p")
+            return
+
+wakeup = time.time()
+print(wakeup)
