@@ -50,4 +50,4 @@ class MyClient(discord.Client):
             await asyncio.sleep(5) # task runs every 5 seconds
 
 bot = MyClient()
-bot.run('NzM0NjU2NDc4NTIyMTE0MTE5.XxfKfw.-4jNDgfMY7A8T_plP5Cx23ECGPE')
+bot.run('token')
