@@ -90,17 +90,20 @@ class PokeMeowBotLogic():
         NumBalls = int(NumBalls)
 
         if "pokeball" in message:
+            self.Coins = self.Coins - 200*NumBalls
             self.Pokeballs += NumBalls
 
         elif "greatball" in message:
+            self.Coins = self.Coins - 500*NumBalls
             self.Greatballs += NumBalls
 
         elif "ultraball" in message:
+            self.Coins = self.Coins - 1500*NumBalls
             self.Ultraballs += NumBalls
         
         elif "masterball" in message:
+            self.Coins = self.Coins - 100000*NumBalls
             self.Masterballs += NumBalls
-
 
 
     def NeedBall(self):
