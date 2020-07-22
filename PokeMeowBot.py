@@ -35,7 +35,6 @@ class MyClient(discord.Client):
             else:
                 response = self.logicBot.GetResponse(str(message.content))
 
-            print("Responding with: " + response)
             await asyncio.sleep(15.0)
             self.messageSender.send(response)
             self.timeOfLastSend = time.time()
@@ -49,5 +48,11 @@ class MyClient(discord.Client):
 
             await asyncio.sleep(5) # task runs every 5 seconds
 
-bot = MyClient()
-bot.run('token')
+try:
+    f = open("token.txt", "r")
+    token = f.readline()
+    f.close()
+    bot = MyClient()
+    bot.run(token)
+except:
+    print("Couldn't get the token from \'token.txt\'!")
