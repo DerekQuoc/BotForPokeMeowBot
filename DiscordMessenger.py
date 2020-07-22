@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 import getpass
 import time
+import asyncio
 
 class Messenger:
     """Facilitates sending discord messages as a user"""
@@ -19,10 +20,15 @@ class Messenger:
         #lamPokemon1 = "https://discord.com/channels/179380913891704832/732764955677556776"
         self.driver.get(testServer)
 
-        time.sleep(2)
+        try:
+            time.sleep(2)
+            emailEntry = self.driver.find_element_by_name('email')
+            passwordEntry = self.driver.find_element_by_name('password')
+        except:
+            time.sleep(5)
+            emailEntry = self.driver.find_element_by_name('email')
+            passwordEntry = self.driver.find_element_by_name('password')
 
-        emailEntry = self.driver.find_element_by_name('email')
-        passwordEntry = self.driver.find_element_by_name('password')
         emailEntry.clear()
         passwordEntry.clear()
 
@@ -46,6 +52,5 @@ class Messenger:
 
 
     def send(self, message):
-        time.sleep(1)
         self.textElement.send_keys(message)
         self.textElement.send_keys(Keys.RETURN)

@@ -148,7 +148,6 @@ class PokeMeowBotLogic():
     def GetResponse(self, message):
         if "item inventory" in message:
             self.ConstructInv(message)
-            return ";p"
 
         #if "you bought" in message:
            # return ";p"

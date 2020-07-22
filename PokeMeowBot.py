@@ -1,4 +1,5 @@
 import discord
+import asyncio
 import time
 import datetime
 from DiscordMessenger import Messenger
@@ -8,11 +9,8 @@ class MyClient(discord.Client):
     pokeMeow = 'PokéMeow#6691'
     logicBot = 0
     messageSender = 0
-
-    wakeup = time.time()
-
-
-
+    timeOfLastSend = 0
+    timeOfLastGet = 0
 
     async def on_ready(self):
         print("logged on as {0}!".format(self.user))
@@ -20,65 +18,36 @@ class MyClient(discord.Client):
         self.logicBot = PokeMeowBotLogic()
         response = self.logicBot.StartUp()
         self.messageSender.send(response)
-    
-
-
+        self.timeOfLastGet = time.time()
+        self.timeOfLastSend = time.time()
+        self.bg_task = self.loop.create_task(self.check_no_response())
 
 
 
     async def on_message(self, message):
-
         if str(message.author) == str(self.pokeMeow):
+            self.timeOfLastGet = time.time()
+
             embedded = [str(embed.to_dict()) for embed in message.embeds]
-            time.sleep(5)
 
-            self.wakeup = time.time()
-
-             # embedded message
             if len(embedded) != 0:
                 response = self.logicBot.GetResponse(embedded[0])
-
-            # regular text
             else:
                 response = self.logicBot.GetResponse(str(message.content))
+
+            print("Responding with: " + response)
+            await asyncio.sleep(15.0)
             self.messageSender.send(response)
+            self.timeOfLastSend = time.time()
 
+    async def check_no_response(self):
+        await self.wait_until_ready()
+        while not self.is_closed():
+            if time.time() - self.timeOfLastGet > 30 and time.time() - self.timeOfLastSend > 30:
+                print("Nothing for 10 seconds, sending ;p")
+                self.messageSender.send(";p")
 
-
-    
-    async def Reboot_Message(self):
-        while True:
-            self.wakeup += 11
-            for i in range(12):
-                time.sleep(1)
-                print(i)
-                if time.time() > self.wakeup:
-                    self.messageSender.send(";p")
-
-
-        
-        
-            
-
-
-
-                
-
-
-
-            
-
-
-            #if logicBot.UnknownMessage == True:
-
-            # file = open("rawBotInput.txt", 'w', encoding="utf-8")
-            # file.writelines(response)
-
-
-
-
-
-
+            await asyncio.sleep(5) # task runs every 5 seconds
 
 bot = MyClient()
-bot.run('NzM0NjU2NDc4NTIyMTE0MTE5.XxZwpg.ZR3Fz7dJQw6MLPFkmISthwYpf2Y')
+bot.run('NzM0NjU2NDc4NTIyMTE0MTE5.XxfKfw.-4jNDgfMY7A8T_plP5Cx23ECGPE')
