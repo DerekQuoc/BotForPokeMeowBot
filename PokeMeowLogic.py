@@ -77,8 +77,32 @@ class PokeMeowBotLogic():
         self.Masterballs = int(InitialMB)
         print(self.Masterballs)
 
-
+        #print out eggs
         
+    def UpdateInv(self, message):
+        NumBalls = ""
+        NumLocationStart = message.find("bought") + len("bought") - 1
+        NumLocationEnd = message.rfind("x")
+        NumStr = message[NumLocationStart:NumLocationEnd]
+        for word in NumStr:
+            if word.isdigit():
+                NumBalls = NumBalls + word
+        NumBalls = int(NumBalls)
+
+        if "pokeball" in message:
+            self.Pokeballs += NumBalls
+
+        elif "greatball" in message:
+            self.Greatballs += NumBalls
+
+        elif "ultraball" in message:
+            self.Ultraballs += NumBalls
+        
+        elif "masterball" in message:
+            self.Masterballs += NumBalls
+
+
+
     def NeedBall(self):
         return (self.Pokeballs == 0 or self.Greatballs == 0 or self.Ultraballs == 0 or self.Masterballs == 0)
 
@@ -86,33 +110,24 @@ class PokeMeowBotLogic():
 
         if self.Pokeballs == 0:
             if self.Coins > 10000:
-                self.Coins -= 10000
                 return ";shop buy 1 50"
             else:
-                self.Coins -= 200
                 return ";shop buy 1 1"
 
         if self.Greatballs == 0:
-            if self.Coins > 15000:
-                self.Coins -= 15000        
+            if self.Coins > 15000:     
                 return ";shop buy 2 30"
             else:
-                self.Coins -= 500
                 return ";shop buy 2 1"
 
         if self.Ultraballs == 0:
             if self.Coins > 7500:
-                self.Coins -= 7500
                 return ";shop buy 3 5"
             else:
-                self.Coins -= 1500
                 return ";shop buy 3 1"
 
         if  self.Masterballs == 0 and self.Coins > 200000:
-            self.Coins -= 100000
             return ";shop buy 4 1"
-        else:
-            return ";p"
 
     def HatchableEgg(self):
         if self.NumEggs > 0:
@@ -149,14 +164,15 @@ class PokeMeowBotLogic():
         if "item inventory" in message:
             self.ConstructInv(message)
 
-        #if "you bought" in message:
-           # return ";p"
+        if "you bought" in message:
+            self.UpdateInv(message)
 
         if self.NeedBall() == True:
             return self.BuyBall()
 
         if "A wild Pokemon" in message:
             return self.GottaCatchEmAll(message)
+
         
         if "Your egg is ready to hatch" in message:
             return self.HatchableEgg()
@@ -166,8 +182,7 @@ class PokeMeowBotLogic():
             self.NumEggs -= 1
             return ";egg hold"
 
-        else:
-            return ";p"
+        return ";p"
 
 
 
