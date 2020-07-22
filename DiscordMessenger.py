@@ -19,7 +19,7 @@ class Messenger:
         #lamPokemon1 = "https://discord.com/channels/179380913891704832/732764955677556776"
         self.driver.get(testServer)
 
-        time.sleep(5)
+        time.sleep(2)
 
         emailEntry = self.driver.find_element_by_name('email')
         passwordEntry = self.driver.find_element_by_name('password')
