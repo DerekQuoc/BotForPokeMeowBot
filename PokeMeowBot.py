@@ -35,14 +35,17 @@ class MyClient(discord.Client):
             else:
                 response = self.logicBot.GetResponse(str(message.content))
 
-            await asyncio.sleep(15.0)
+            if ";" in response:
+                await asyncio.sleep(15.0)
+            else:
+                await asyncio.sleep(5.0)
             self.messageSender.send(response)
             self.timeOfLastSend = time.time()
 
     async def check_no_response(self):
         await self.wait_until_ready()
         while not self.is_closed():
-            if time.time() - self.timeOfLastGet > 30 and time.time() - self.timeOfLastSend > 30:
+            if time.time() - self.timeOfLastGet > 20 and time.time() - self.timeOfLastSend > 20:
                 print("Nothing for 10 seconds, sending ;p")
                 self.messageSender.send(";p")
 
