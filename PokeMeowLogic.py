@@ -95,7 +95,7 @@ class PokeMeowBotLogic():
 
 
     def NeedBall(self):
-        return (self.Pokeballs == 0 or self.Greatballs == 0 or self.Ultraballs == 0 or self.Masterballs == 0)
+        return (self.Pokeballs == 0 or self.Greatballs == 0 or self.Ultraballs == 0 or (self.Masterballs == 0 and self.Coins >200000))
 
     def BuyBall(self):
 
@@ -117,8 +117,9 @@ class PokeMeowBotLogic():
             else:
                 return ";shop buy 3 1"
 
-        if  self.Masterballs == 0 and self.Coins > 200000:
+        if  self.Masterballs == 0:
             return ";shop buy 4 1"
+
 
     def HatchableEgg(self):
         if self.NumEggs > 0:
