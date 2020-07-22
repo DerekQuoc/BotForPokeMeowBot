@@ -38,9 +38,12 @@ class Messenger:
         passwordEntry.send_keys(self.password)
         passwordEntry.send_keys(Keys.RETURN)
 
-        time.sleep(5)
-
-        self.textElement = self.driver.find_element_by_xpath('/html/body/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/main/form/div/div/div/div/div[3]/div[2]')
+        try:
+            time.sleep(5)
+            self.textElement = self.driver.find_element_by_xpath('/html/body/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/main/form/div/div/div/div/div[3]/div[2]')
+        except:
+            time.sleep(10)
+            self.textElement = self.driver.find_element_by_xpath('/html/body/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/main/form/div/div/div/div/div[3]/div[2]')
 
     def __del__(self):
         self.driver.close()
