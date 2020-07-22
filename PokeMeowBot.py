@@ -2,6 +2,7 @@ import discord
 import asyncio
 import time
 import datetime
+import random #use to randomize sending message timer
 from DiscordMessenger import Messenger
 from PokeMeowLogic import PokeMeowBotLogic
 
@@ -29,6 +30,7 @@ class MyClient(discord.Client):
         if str(message.author) == str(self.pokeMeow):
             self.timeOfLastGet = time.time()
 
+            #need to take both embedded and not embedded to know message type
             embedded = [str(embed.to_dict()) for embed in message.embeds]
 
             if len(embedded) != 0:

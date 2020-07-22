@@ -65,6 +65,16 @@ class PokeMeowBotLogic():
         self.Masterballs = int(InitialMB)
         print(self.Masterballs)
 
+        InitialEgg =""
+        EggLocationStart = message.find("685341229587890208>") +len("685341229587890208>") -1
+        EggLocationEnd = message.find("*x Eggs")
+        EggStr = message[EggLocationStart:EggLocationEnd]
+        for word in EggStr:
+            if word.isdigit():
+                InitialEgg = InitialEgg + word
+        self.NumEggs = int(InitialEgg)
+        print(self.NumEggs)
+
         
 
     def UpdateEgg(self, message):
