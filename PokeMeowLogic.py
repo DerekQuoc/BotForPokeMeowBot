@@ -159,9 +159,6 @@ class PokeMeowBotLogic():
         if "you bought" in message:
             self.UpdateInv(message)
 
-        if self.NeedBall() == True:
-            return self.BuyBall()
-
         if "A wild Pokemon" in message:
             return self.GottaCatchEmAll(message)
 

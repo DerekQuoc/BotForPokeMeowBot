@@ -39,7 +39,7 @@ class MyClient(discord.Client):
             self.lastMessage = response
 
             if ";" in response:
-                await asyncio.sleep(15.0)
+                await asyncio.sleep(14.0)
             else:
                 await asyncio.sleep(5.0)
             self.messageSender.send(response)
@@ -48,7 +48,7 @@ class MyClient(discord.Client):
             if self.logicBot.NeedBall() == True:
                 response = self.logicBot.BuyBall()
                 self.lastMessage = response
-                await asyncio.sleep(15.0)
+                await asyncio.sleep(14.0)
                 self.messageSender.send(response)
                 self.timeOfLastSend = time.time()
 
@@ -56,11 +56,13 @@ class MyClient(discord.Client):
     async def check_no_response(self):
         await self.wait_until_ready()
         while not self.is_closed():
-            if ";" not in self.lastMessage and time.time() - self.timeOfLastSend > 10:
+            if ";" not in self.lastMessage and time.time() - self.timeOfLastSend > 15:
                 self.messageSender.send(";p")
+                self.timeOfLastSend = time.time()
             if time.time() - self.timeOfLastSend > 20:
                 print("Nothing for 10 seconds, sending ;p")
                 self.messageSender.send(";p")
+                self.timeOfLastSend = time.time()
 
             await asyncio.sleep(5) # task runs every 5 seconds
 
