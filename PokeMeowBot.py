@@ -45,6 +45,14 @@ class MyClient(discord.Client):
             self.messageSender.send(response)
             self.timeOfLastSend = time.time()
 
+            if self.logicBot.NeedBall() == True:
+                response = self.logicBot.BuyBall()
+                self.lastMessage = response
+                await asyncio.sleep(15.0)
+                self.messageSender.send(response)
+                self.timeOfLastSend = time.time()
+
+
     async def check_no_response(self):
         await self.wait_until_ready()
         while not self.is_closed():
