@@ -15,6 +15,7 @@ class PokeMeowBotLogic():
         return ";inv"
 
     def ConstructInv(self, message):
+        print("Getting Inventory Info")
         InitialCoins = ""
         CoinLocationStart = message.find("n<:PokeCoin:666879070650236928>") +len("n<:PokeCoin:666879070650236928>")-1
         CoinLocationEnd = message.find("**x PokeCoins")
@@ -68,6 +69,7 @@ class PokeMeowBotLogic():
         #print out eggs
         
     def UpdateInv(self, message):
+        print("Updating Inventory")
         NumBalls = ""
         NumLocationStart = message.find("bought") + len("bought") - 1
         NumLocationEnd = message.rfind("x")
@@ -155,9 +157,11 @@ class PokeMeowBotLogic():
     def GetResponse(self, message):
         if "item inventory" in message:
             self.ConstructInv(message)
+            return False
 
         if "you bought" in message:
             self.UpdateInv(message)
+            return False
 
         if "A wild Pokemon" in message:
             return self.GottaCatchEmAll(message)

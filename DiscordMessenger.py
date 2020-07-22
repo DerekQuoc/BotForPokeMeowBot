@@ -4,6 +4,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import getpass
 import time
 import asyncio
+from LoginManager import LoginManager
 
 class Messenger:
     """Facilitates sending discord messages as a user"""
@@ -11,6 +12,7 @@ class Messenger:
     password = ""
     driver = 0
     textElement = 0
+    loginManager = LoginManager()
 
     def __init__(self):
         self.driver = webdriver.Chrome(ChromeDriverManager().install())
@@ -50,9 +52,17 @@ class Messenger:
 
     def setUserInfo(self):
         # don't want to hardcode our emails and passwords, so just get them from user
-        self.email = input("Enter your discord email: ")
-        self.password = getpass.getpass("Enter your password: ")
-
+        info = self.loginManager.getLogin()
+        if not info:
+            print("\n------- First Time Login -------")
+            self.email = input("Discord User Email: ")
+            self.password = getpass.getpass("Discord Password (hidden): ")
+            self.loginManager.storeLoginInfo([self.email, self.password])
+        else:
+            print("Logging in automatically with previous login info")
+            print("(To reset login info, delete the login_info file)")
+            self.email = info[0]
+            self.password = info[1]
 
     def send(self, message):
         self.textElement.send_keys(message)

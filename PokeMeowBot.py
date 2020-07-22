@@ -36,35 +36,48 @@ class MyClient(discord.Client):
             else:
                 response = self.logicBot.GetResponse(str(message.content))
 
-            self.lastMessage = response
-
-            if ";" in response:
-                await asyncio.sleep(14.0)
-            else:
-                await asyncio.sleep(5.0)
-            self.messageSender.send(response)
-            self.timeOfLastSend = time.time()
-
-            if self.logicBot.NeedBall() == True:
-                response = self.logicBot.BuyBall()
+            if response:
                 self.lastMessage = response
-                await asyncio.sleep(14.0)
-                self.messageSender.send(response)
-                self.timeOfLastSend = time.time()
+                if ";" in response:
+                    waitTime = 14
+                else:
+                    waitTime = 5
+
+                await asyncio.sleep(waitTime)
+                self.send(response)
+
+            await asyncio.sleep(14)
+            self.buyBalls()
 
 
     async def check_no_response(self):
         await self.wait_until_ready()
         while not self.is_closed():
-            if ";" not in self.lastMessage and time.time() - self.timeOfLastSend > 15:
-                self.messageSender.send(";p")
-                self.timeOfLastSend = time.time()
-            if time.time() - self.timeOfLastSend > 20:
-                print("Nothing for 20 seconds, sending ;p")
-                self.messageSender.send(";p")
-                self.timeOfLastSend = time.time()
+
+            if ";" not in self.lastMessage:
+                waitTime = 15
+            else:
+                waitTime = 20
+
+            if time.time() - self.timeOfLastSend > waitTime:
+                print("No response, sending another message")
+
+                if not self.buyBalls():
+                    self.send(";p")
 
             await asyncio.sleep(5) # task runs every 5 seconds
+
+    def send(self, txt):
+        self.messageSender.send(txt)
+        self.timeOfLastSend = time.time()
+
+    def buyBalls(self):
+        if self.logicBot.NeedBall():
+                print("Need to buy a ball")
+                response = self.logicBot.BuyBall()
+                self.lastMessage = response
+                self.send(response)
+
 
 try:
     f = open("token.txt", "r")
