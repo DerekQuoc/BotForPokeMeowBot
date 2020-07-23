@@ -3,17 +3,19 @@
 
 import discord
 
+
 class MyClient(discord.Client):
     pokeMeow = 'PokéMeow#6691'
+    userName = "DerekQuoc"
 
     async def on_ready(self):
         print("logged on as {0}!".format(self.user))
         print(self.pokeMeow)
     
     async def on_message(self, message):
-        if str(message.author) == str(self.pokeMeow):
-            print("got a pokemeow message!")
-            print("user = " + str(message.author))
+        if str(message.author) == str(self.pokeMeow) and (self.userName in str(message.content)):
+            print("got a pokemeow message for " + self.userName +"!")
+            print("from " + str(message.author))
 
             embedded = [str(embed.to_dict()) for embed in message.embeds]
 
@@ -25,6 +27,11 @@ class MyClient(discord.Client):
             file = open("rawText.txt", 'w', encoding="utf-8")
             file.writelines(text)
 
-
-bot = MyClient()
-bot.run('NzM0NjU2NDc4NTIyMTE0MTE5.XxZwpg.ZR3Fz7dJQw6MLPFkmISthwYpf2Y')
+try:
+    f = open("token.txt", "r")
+    token = f.readline()
+    f.close()
+    bot = MyClient()
+    bot.run(token)
+except:
+    print("Couldn't get the token from \'token.txt\'!")

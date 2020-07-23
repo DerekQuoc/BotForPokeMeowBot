@@ -146,6 +146,8 @@ class PokeMeowBotLogic():
             self.AddEgg = True
         return ";egg hatch"
 
+    def AddQuest(self):
+        self.NeedQuest = True
         
     def GottaCatchEmAll(self, message):
         if "Common" in message:
@@ -188,12 +190,18 @@ class PokeMeowBotLogic():
 
         if "A wild Pokemon" in message:
             return self.GottaCatchEmAll(message)
-
         
         if "Your egg is ready to hatch" in message:
             return self.HatchableEgg()
 
-        #if "completed the quest"
+        if "completed the quest" in message:
+            self.AddQuest()
+
+        if "Complete your quests" in message:
+            self.NeedQuest = False
+
+        if self.NeedQuest == True:
+            return ";quest"
 
         if  self.AddEgg == True:
             return ";egg hold"
