@@ -36,35 +36,33 @@ class MyClient(discord.Client):
         response = self.logicBot.StartUp()
         self.messageSender.send(response)
 
-# need to move startup message down
+
+    #async def on_message_edit(self, message):
+
+    # need to move startup message down
     async def on_message(self, message):
         if str(message.content) == self.initialMessage:
-            self.userMention = (message.author.mention)
+            self.userMention = str(message.author.mention)
+            print(self.userMention)
 
         if str(message.author) == str(self.pokeMeow):
+
+            text = str(message.content)
             embedded = [str(embed.to_dict()) for embed in message.embeds]
-
-
-            #need to take both embedded and not embedded to know message type
-            if len(embedded) != 0:
-                    embeddedText = (embedded[0])
-            else:
-                    embeddedText = ""
             
-            normalText = str(message.content)
-
-            if self.usernameInMessage(normalText) or self.usernameInMessage(embeddedText):
-                if "are you there" in str(message.content) or "incorrect response" in str(message.content):
+            if len(embedded) != 0:
+                    text += " " + str(embedded[0])
+            
+            if self.usernameInMessage(text):
+                if "are you there" in text or "incorrect response" in text:
+                    print("captcha found!")
                     self.Captcha = True
-                    response = input()
+                    response = input("CAPTCHA: ")
                     self.send(response)
                     self.Captcha = False
                     return
 
-                if embedded != "":
-                    response = self.logicBot.GetResponse(embeddedText)
-                else:
-                    response = self.logicBot.GetResponse(normalText)
+                response = self.logicBot.GetResponse(text)
 
                 if response:
                     self.lastMessage = response
@@ -109,7 +107,7 @@ class MyClient(discord.Client):
 
 
     def usernameInMessage(self, text):
-        return self.userName in text or self.userMention in text
+        return (self.userName in text) or (self.userMention in text)
  
 
 try:

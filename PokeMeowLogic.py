@@ -113,7 +113,11 @@ class PokeMeowBotLogic():
             self.Coins = self.Coins - 100000*NumBalls
             self.Masterballs += NumBalls
 
-        
+        print("Coins = "        + str(self.Coins))
+        print("Pokeballs = "    + str(self.Pokeballs))
+        print("Greatballs = "   + str(self.Greatballs))
+        print("Ultraballs = "   + str(self.Ultraballs))
+        print("Masterballs = "  + str(self.Masterballs))
 
 
     def NeedBall(self):

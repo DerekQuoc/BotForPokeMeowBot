@@ -1,27 +1,6 @@
-import time
-MESSAGE = 0
-InitialMessage = ""
-message = "Hey there 12,34 I love you"
-MessageStart = message.find("there") + 5
-MessageEnd = message.find("I love you")
-MessageStr = message[MessageStart:MessageEnd]
-print(MessageStr)
-for word in MessageStr:
-    if word.isdigit():
-        InitialMessage = InitialMessage + word
-MESSAGE = int(InitialMessage)
-print(MESSAGE)
-        
-wakeup = time.time()
-print(wakeup)
-while True:
-    wakeup += 11
-    for i in range(11):
-        time.sleep(1)
-        print(i)
-        if time.time() > wakeup:
-            print(";p")
-            return
 
-wakeup = time.time()
-print(wakeup)
+mention = "<@136668450767634432>"
+msg = "<@136668450767634432>, you bought **1x** <:pokeball:671848138935500836> for <:PokeCoin:666879070650236928> **200** and have <:PokeCoin:666879070650236928> **4,217** remaining."
+
+
+print(("tomeypurkle" in msg) or (mention in msg))
