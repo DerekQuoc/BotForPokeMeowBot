@@ -8,6 +8,8 @@ class PokeMeowBotLogic():
     NumEggs = 0
     AddEgg = False
 
+    NeedQuest = False
+
     UnknownMessage = False
 
 

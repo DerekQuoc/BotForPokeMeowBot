@@ -13,6 +13,8 @@ class MyClient(discord.Client):
     timeOfLastSend = 0
     timeOfLastGet = 0
     lastMessage = ""
+    Captcha = False
+    userName = "DerekQuoc"
 
     async def on_ready(self):
         print("logged on as {0}!".format(self.user))
@@ -25,13 +27,19 @@ class MyClient(discord.Client):
         self.bg_task = self.loop.create_task(self.check_no_response())
 
 
-
+# need to move startup message down
     async def on_message(self, message):
         if str(message.author) == str(self.pokeMeow):
             self.timeOfLastGet = time.time()
 
             #need to take both embedded and not embedded to know message type
             embedded = [str(embed.to_dict()) for embed in message.embeds]
+            if "are you there" in str(message.content) or "incorrect response" in str(message.content):
+                self.Captcha = True
+                response = input()
+                self.send(response)
+                self.Captcha = False
+
 
             if len(embedded) != 0:
                 response = self.logicBot.GetResponse(embedded[0])
@@ -54,7 +62,7 @@ class MyClient(discord.Client):
 
     async def check_no_response(self):
         await self.wait_until_ready()
-        while not self.is_closed():
+        while not self.is_closed() and self.Captcha == False:
 
             if ";" not in self.lastMessage:
                 waitTime = 15
