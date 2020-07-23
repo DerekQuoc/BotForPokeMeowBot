@@ -41,14 +41,14 @@ class MyClient(discord.Client):
             if response:
                 self.lastMessage = response
                 if ";" in response:
-                    waitTime = 14
+                    waitTime = 12
                 else:
                     waitTime = 5
 
                 await asyncio.sleep(waitTime)
                 self.send(response)
 
-            await asyncio.sleep(14)
+            await asyncio.sleep(10)
             self.buyBalls()
 
 
@@ -62,7 +62,6 @@ class MyClient(discord.Client):
                 waitTime = 20
 
             if time.time() - self.timeOfLastSend > waitTime:
-                print("No response, sending another message")
 
                 if not self.buyBalls():
                     self.send(";p")

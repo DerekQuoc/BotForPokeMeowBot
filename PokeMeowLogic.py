@@ -175,9 +175,13 @@ class PokeMeowBotLogic():
     def GetResponse(self, message):
         if "item inventory" in message:
             self.ConstructInv(message)
+            # returning False = "don't send a response to this message"
+            return False
 
         if "you bought" in message:
             self.UpdateBalls(message)
+            # returning False = "don't send a response to this message"
+            return False
 
         if "you're now holding an egg" in message:
             self.UpdateEgg(message)
