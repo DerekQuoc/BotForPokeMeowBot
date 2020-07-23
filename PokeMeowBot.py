@@ -30,51 +30,53 @@ class MyClient(discord.Client):
 # need to move startup message down
     async def on_message(self, message):
         if str(message.author) == str(self.pokeMeow):
-            self.timeOfLastGet = time.time()
+            embedded = [str(embed.to_dict()) for embed in message.embeds]
+
+            if self.userName in str(message.content) or self.userName in (embedded[0]):
 
             #need to take both embedded and not embedded to know message type
-            embedded = [str(embed.to_dict()) for embed in message.embeds]
-            if "are you there" in str(message.content) or "incorrect response" in str(message.content):
-                self.Captcha = True
-                response = input()
-                self.send(response)
-                self.Captcha = False
+            
+                if "are you there" in str(message.content) or "incorrect response" in str(message.content):
+                    self.Captcha = True
+                    response = input()
+                    self.send(response)
+                    self.Captcha = False
 
 
-            if len(embedded) != 0:
-                response = self.logicBot.GetResponse(embedded[0])
-            else:
-                response = self.logicBot.GetResponse(str(message.content))
-
-            if response:
-                self.lastMessage = response
-                if ";" in response:
-                    waitTime = 12
+                if len(embedded) != 0:
+                    response = self.logicBot.GetResponse(embedded[0])
                 else:
-                    waitTime = 5
+                    response = self.logicBot.GetResponse(str(message.content))
 
-                await asyncio.sleep(waitTime)
-                self.send(response)
+                if response:
+                    self.lastMessage = response
+                    if ";" in response:
+                        waitTime = 12
+                    else:
+                        waitTime = 5
 
-            await asyncio.sleep(10)
-            self.buyBalls()
+                    await asyncio.sleep(waitTime)
+                    self.send(response)
+
+                await asyncio.sleep(10)
+                self.buyBalls()
 
 
     async def check_no_response(self):
         await self.wait_until_ready()
-        while not self.is_closed() and self.Captcha == False:
+        while not self.is_closed():
+            if self.Captcha == False:
+                if ";" not in self.lastMessage:
+                    waitTime = 15
+                else:
+                    waitTime = 20
 
-            if ";" not in self.lastMessage:
-                waitTime = 15
-            else:
-                waitTime = 20
+                if time.time() - self.timeOfLastSend > waitTime:
 
-            if time.time() - self.timeOfLastSend > waitTime:
+                    if not self.buyBalls():
+                        self.send(";p")
 
-                if not self.buyBalls():
-                    self.send(";p")
-
-            await asyncio.sleep(5) # task runs every 5 seconds
+                await asyncio.sleep(5) # task runs every 5 seconds
 
     def send(self, txt):
         self.messageSender.send(txt)
