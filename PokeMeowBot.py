@@ -14,39 +14,57 @@ class MyClient(discord.Client):
     timeOfLastGet = 0
     lastMessage = ""
     Captcha = False
-    userName = "DerekQuoc"
+    userName = "tomeypurkle"
+    userMention = ""
+    initialMessage = ""
+
 
     async def on_ready(self):
         print("logged on as {0}!".format(self.user))
         self.messageSender = Messenger()
         self.logicBot = PokeMeowBotLogic()
-        response = self.logicBot.StartUp()
-        self.messageSender.send(response)
+        
         self.timeOfLastGet = time.time()
         self.timeOfLastSend = time.time()
         self.bg_task = self.loop.create_task(self.check_no_response())
 
+        self.initialMessage = "PokeMeow Bot Running for:  " + self.userName + "!"
+        self.messageSender.send(self.initialMessage)
+
+        await asyncio.sleep(2)
+
+        response = self.logicBot.StartUp()
+        self.messageSender.send(response)
 
 # need to move startup message down
     async def on_message(self, message):
+        if str(message.content) == self.initialMessage:
+            self.userMention = (message.author.mention)
+
         if str(message.author) == str(self.pokeMeow):
             embedded = [str(embed.to_dict()) for embed in message.embeds]
 
-            if self.userName in str(message.content) or self.userName in (embedded[0]):
 
             #need to take both embedded and not embedded to know message type
+            if len(embedded) != 0:
+                    embeddedText = (embedded[0])
+            else:
+                    embeddedText = ""
             
+            normalText = str(message.content)
+
+            if self.usernameInMessage(normalText) or self.usernameInMessage(embeddedText):
                 if "are you there" in str(message.content) or "incorrect response" in str(message.content):
                     self.Captcha = True
                     response = input()
                     self.send(response)
                     self.Captcha = False
+                    return
 
-
-                if len(embedded) != 0:
-                    response = self.logicBot.GetResponse(embedded[0])
+                if embedded != "":
+                    response = self.logicBot.GetResponse(embeddedText)
                 else:
-                    response = self.logicBot.GetResponse(str(message.content))
+                    response = self.logicBot.GetResponse(normalText)
 
                 if response:
                     self.lastMessage = response
@@ -72,7 +90,7 @@ class MyClient(discord.Client):
                     waitTime = 20
 
                 if time.time() - self.timeOfLastSend > waitTime:
-
+                    print("Timeout")
                     if not self.buyBalls():
                         self.send(";p")
 
@@ -89,6 +107,10 @@ class MyClient(discord.Client):
                 self.lastMessage = response
                 self.send(response)
 
+
+    def usernameInMessage(self, text):
+        return self.userName in text or self.userMention in text
+ 
 
 try:
     f = open("token.txt", "r")

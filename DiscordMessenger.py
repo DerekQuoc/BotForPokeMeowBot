@@ -31,6 +31,7 @@ class Messenger:
             emailEntry = self.driver.find_element_by_name('email')
             passwordEntry = self.driver.find_element_by_name('password')
 
+
         emailEntry.clear()
         passwordEntry.clear()
 

@@ -87,6 +87,7 @@ class PokeMeowBotLogic():
         #print out eggs
         
     def UpdateBalls(self, message):
+        print("updating inventory")
         NumBalls = ""
         NumLocationStart = message.find("bought") + len("bought") - 1
         NumLocationEnd = message.rfind("x")

@@ -13,7 +13,7 @@ class MyClient(discord.Client):
         print(self.pokeMeow)
     
     async def on_message(self, message):
-        if str(message.author) == str(self.pokeMeow) and (self.userName in str(message.content)):
+        if str(message.author) == str(self.pokeMeow):
             print("got a pokemeow message for " + self.userName +"!")
             print("from " + str(message.author))
 
