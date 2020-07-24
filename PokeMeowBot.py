@@ -14,7 +14,7 @@ class MyClient(discord.Client):
     timeOfLastGet = 0
     lastMessage = ""
     Captcha = False
-    userName = "tomeypurkle"
+    userName = "DerekQuoc"
     userMention = ""
     initialMessage = ""
 
@@ -53,7 +53,7 @@ class MyClient(discord.Client):
             if len(embedded) != 0:
                     text += " " + str(embedded[0])
             
-            if self.usernameInMessage(text):
+            if self.usernameInMessage(text): #or (ballthrow flag == true and oh you're egg is ready to hatch! in text):
                 if "are you there" in text or "incorrect response" in text:
                     print("captcha found!")
                     self.Captcha = True
@@ -70,7 +70,7 @@ class MyClient(discord.Client):
                         waitTime = 12
                     else:
                         waitTime = 5
-
+                        #setflag for egg check
                     await asyncio.sleep(waitTime)
                     self.send(response)
 
